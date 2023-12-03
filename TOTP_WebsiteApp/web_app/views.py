@@ -1,18 +1,31 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Import any necessary models or forms here
+# Default Homepage View
 
-def index(request):
+def web_app_home(request):
     # Your index view logic here
     return HttpResponse('whats up')  # Render the 'index.html' template
 
-# Define your view functions for register, login, logout, etc.
-# Replace the placeholders with actual view logic
+#Dictionary Defined for use in Dynamic URL Routing
+account_options = {
+    'setup_totp' : 'setup_totp',
+    'register' : 'register',
+    'login' : 'login',
+    'Account_info' : 'Account_info',
+    'logout' : 'logout'
+}
 
-def register_user(request):
-    # Your register view logic here
-    return render(request, 'register.html')
+# Define your view functions for register, login, logout, etc.
+
+def account_settings(request, feature):
+    # Account Settings view logic here
+    if feature in account_options:
+        return HttpResponse(account_options[feature])
+    else:
+        return HttpResponse('Invalid feature')
+
+
 
 def login_user(request):
     # Your login view logic here
