@@ -1,17 +1,8 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOTP Website App - Register or Sign In</title>
-    <!-- Add Bootstrap CSS (make sure to link the appropriate Bootstrap CSS file) -->
-   {# <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> #}
-    <!-- Include your custom CSS file -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+{% block title %}TOTP Website App - Register or Sign In{% endblock %}
+
+{% block content %}
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
@@ -36,8 +27,12 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                              <a href="{% url 'web_app:account_options' feature='register' %}"<button type="submit" class="btn btn-primary btn-lg">Register</button></a>
-                              <a href="{% url 'web_app:account_options' feature='login' %}"<button type="submit" class="btn btn-success btn-lg">Sign In</button></a>
+                                <a href="{% url 'web_app:account_options' feature='register' %}">
+                                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                                </a>
+                                <a href="{% url 'web_app:account_options' feature='login' %}">
+                                    <button type="submit" class="btn btn-success btn-lg">Sign In</button>
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -45,5 +40,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

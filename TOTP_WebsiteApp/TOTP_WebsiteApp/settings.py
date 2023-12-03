@@ -56,7 +56,11 @@ ROOT_URLCONF = 'TOTP_WebsiteApp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [
+            BASE_DIR / 'templates',  # Add your project-level templates directory
+            # Add the path to your app-level templates directory
+            os.path.join(BASE_DIR, 'web_app', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
