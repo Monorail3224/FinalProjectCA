@@ -1,11 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http.response import HttpResponse, HttpResponseNotFound, Http404
 
 # Default Homepage View
-
 def web_app_home(request):
     # Your index view logic here
-    return HttpResponse('whats up')  # Render the 'index.html' template
+    return render(request, 'homepage/index.html')
 
 #Dictionary Defined for use in Dynamic URL Routing
 account_options = {
@@ -13,53 +12,37 @@ account_options = {
     'register' : 'register',
     'login' : 'login',
     'Account_info' : 'Account_info',
-    'logout' : 'logout'
+    'logout' : 'logout',
+    'change_password' : 'change_password',
+    'update_profile' : 'update_profile',
+    'delete_profile' : 'delete_profile',
+}
+
+totp_options = {
+    'totp_settings' : 'totp_settings',
+    'verify_totp' : 'verify_totp',
+    'reset_totp' : 'reset_totp',
+
 }
 
 # Define your view functions for register, login, logout, etc.
 
 def account_settings(request, feature):
-    # Account Settings view logic here
-    if feature in account_options:
+    try:
+        result=account_options[feature]
         return HttpResponse(account_options[feature])
+    except:
+        raise Http404("Invalid feature")
+    
+    
+    # Define your view functions for register, login, logout, etc.
+
+def totp_settings(request, selection):
+    # Account Settings view logic here
+    if selection in totp_options:
+        return HttpResponse(totp_options[selection])
     else:
         return HttpResponse('Invalid feature')
-
-
-
-def login_user(request):
-    # Your login view logic here
-    return render(request, 'login.html')
-
-def logout_user(request):
-    # Your logout view logic here
-    return render(request, 'logout.html')
-
-# Define your view functions for setup_totp, verify_totp, reset_totp, etc.
-# Replace the placeholders with actual view logic
-
-def setup_totp(request):
-    # Your setup_totp view logic here
-    return render(request, 'setup_totp.html')
-
-def verify_totp(request):
-    # Your verify_totp view logic here
-    return render(request, 'verify_totp.html')
-
-def reset_totp(request):
-    # Your reset_totp view logic here
-    return render(request, 'reset_totp.html')
-
-# Define your view functions for get_profile, update_profile, etc.
-# Replace the placeholders with actual view logic
-
-def get_profile(request):
-    # Your get_profile view logic here
-    return render(request, 'get_profile.html')
-
-def update_profile(request):
-    # Your update_profile view logic here
-    return render(request, 'update_profile.html')
 
 # Define your view functions for reset_password, manage_2fa_settings, etc.
 # Replace the placeholders with actual view logic
