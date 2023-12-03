@@ -5,100 +5,69 @@
     margin-top: 50px;
     border: 2px solid #3498db;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
 }
 
 .card-header {
     background-color: #3498db;
     color: #fff;
-    text-align: center;
     padding: 10px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 .card-body {
-    padding: 20px;
+    padding-bottom: 5em;
 }
 
 /* Style form elements */
 .form-control {
     border: 1px solid #ccc;
     border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    transition: border-color 0.2s ease-in-out;
 }
 
-/* Style buttons */
-.btn-primary {
-    background-color: #3498db;
+.form-control:focus {
     border-color: #3498db;
 }
 
-.btn-success {
-    background-color: #5cb85c;
-    border-color: #5cb85c;
-    margin-left: 10px;
+/* Center the buttons and make them larger */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Adjust the margin as needed */
 }
 
-/* Adjust button text color */
 .btn-primary,
 .btn-success {
-    color: #fff;
-}
-
-/* Hover styles for buttons */
-.btn-primary:hover,
-.btn-success:hover {
-    background-color: #2183c6;
-    border-color: #2183c6;
-}
-/* styles.css */
-
-/* Center the card */
-.card {
-    margin-top: 50px;
-    border: 2px solid #3498db;
+    background-color: #3498db;
+    margin-top: 10px;
+    border: none;
     border-radius: 10px;
-}
-
-.card-header {
-    background-color: #3498db;
+    padding: .5em 1em;
     color: #fff;
-    text-align: center;
-    padding: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.card-body {
-    padding: 20px;
-}
-
-/* Style form elements */
-.form-control {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Style buttons */
-.btn-primary {
-    background-color: #3498db;
-    border-color: #3498db;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .btn-success {
     background-color: #5cb85c;
-    border-color: #5cb85c;
-    margin-left: 10px;
 }
 
-/* Adjust button text color */
-.btn-primary,
-.btn-success {
-    color: #fff;
-}
-
-/* Hover styles for buttons */
 .btn-primary:hover,
 .btn-success:hover {
     background-color: #2183c6;
-    border-color: #2183c6;
 }

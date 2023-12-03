@@ -1,6 +1,8 @@
 from django.urls import path, include
 from . import views
 
+#Register the App Namespace
+app_name = 'web_app'
 
 urlpatterns = [
 
