@@ -1,87 +1,78 @@
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.http import HttpResponse
 
-# Import serializers if you're using Django Rest Framework (DRF)
-# from .serializers import YourSerializer
+# Import any necessary models or forms here
 
-@csrf_exempt
+def index(request):
+    # Your index view logic here
+    return HttpResponse('whats up')  # Render the 'index.html' template
+
+# Define your view functions for register, login, logout, etc.
+# Replace the placeholders with actual view logic
+
 def register_user(request):
-    # Handle user registration logic here
-    # Example: Create a new user
-    # Return a JSON response indicating success or failure
+    # Your register view logic here
+    return render(request, 'register.html')
 
-@csrf_exempt
 def login_user(request):
-    # Handle user login logic here
-    # Example: Authenticate user and generate a token
-    # Return a JSON response with the token
+    # Your login view logic here
+    return render(request, 'login.html')
 
-@csrf_exempt
 def logout_user(request):
-    # Handle user logout logic here
-    # Example: Log the user out and return a success message
+    # Your logout view logic here
+    return render(request, 'logout.html')
 
-@csrf_exempt
+# Define your view functions for setup_totp, verify_totp, reset_totp, etc.
+# Replace the placeholders with actual view logic
+
 def setup_totp(request):
-    # Handle TOTP setup logic here
-    # Example: Generate and return a TOTP secret key
-    # Return a JSON response with the secret key
+    # Your setup_totp view logic here
+    return render(request, 'setup_totp.html')
 
-@csrf_exempt
 def verify_totp(request):
-    # Handle TOTP verification logic here
-    # Example: Verify the TOTP code provided by the user
-    # Return a JSON response indicating success or failure
+    # Your verify_totp view logic here
+    return render(request, 'verify_totp.html')
 
-@csrf_exempt
 def reset_totp(request):
-    # Handle TOTP reset logic here
-    # Example: Reset the TOTP secret key for the user
-    # Return a JSON response indicating success or failure
+    # Your reset_totp view logic here
+    return render(request, 'reset_totp.html')
 
-@login_required
+# Define your view functions for get_profile, update_profile, etc.
+# Replace the placeholders with actual view logic
+
 def get_profile(request):
-    # Retrieve and return the user's profile information
-    # Example: Get the user's profile from the database
-    # Return a JSON response with the profile data
+    # Your get_profile view logic here
+    return render(request, 'get_profile.html')
 
-@login_required
 def update_profile(request):
-    # Update the user's profile information
-    # Example: Update the user's profile in the database
-    # Return a JSON response indicating success or failure
+    # Your update_profile view logic here
+    return render(request, 'update_profile.html')
 
-@login_required
+# Define your view functions for reset_password, manage_2fa_settings, etc.
+# Replace the placeholders with actual view logic
+
 def reset_password(request):
-    # Handle password reset logic here
-    # Example: Send a password reset email to the user
-    # Return a JSON response indicating success or failure
+    # Your reset_password view logic here
+    return render(request, 'reset_password.html')
 
-@login_required
 def manage_2fa_settings(request):
-    # Handle 2FA settings management logic here
-    # Example: Enable or disable 2FA for the user
-    # Return a JSON response indicating success or failure
+    # Your manage_2fa_settings view logic here
+    return render(request, 'manage_2fa_settings.html')
 
-@login_required
+# Define your view functions for manage_users, view_logs, etc.
+# Replace the placeholders with actual view logic
+
 def manage_users(request):
-    # Handle admin user management logic here (for admin users)
-    # Example: List, create, update, or delete user accounts
-    # Return a JSON response with user data or an appropriate message
+    # Your manage_users view logic here
+    return render(request, 'manage_users.html')
 
-@login_required
 def view_logs(request):
-    # Handle viewing audit logs logic here (for admin users)
-    # Example: Retrieve and return audit logs
-    # Return a JSON response with audit log data
+    # Your view_logs view logic here
+    return render(request, 'view_logs.html')
 
-@login_required
+# Define your view functions for generate_token, etc.
+# Replace the placeholders with actual view logic
+
 def generate_token(request):
-    # Handle token generation and management logic here
-    # Example: Generate and return an access token
-    # Return a JSON response with the token data
-
-# Add more views as needed for your project
+    # Your generate_token view logic here
+    return render(request, 'generate_token.html')
