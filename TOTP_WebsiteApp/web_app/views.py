@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http.response import HttpResponse, HttpResponseNotFound, Http404
+from django.urls import reverse
+from . import models
 
 # Default Homepage View
 def web_app_home(request):
-    # Your index view logic here
-    return render(request, 'homepage/index.html')
+    return render(request, 'index.html')
 
 #Dictionary Defined for use in Dynamic URL Routing
 account_options = {
@@ -44,31 +45,6 @@ def totp_settings(request, selection):
     else:
         return HttpResponse('Invalid feature')
 
-# Define your view functions for reset_password, manage_2fa_settings, etc.
-# Replace the placeholders with actual view logic
-
-def reset_password(request):
-    # Your reset_password view logic here
-    return render(request, 'reset_password.html')
-
-def manage_2fa_settings(request):
-    # Your manage_2fa_settings view logic here
-    return render(request, 'manage_2fa_settings.html')
-
-# Define your view functions for manage_users, view_logs, etc.
-# Replace the placeholders with actual view logic
-
-def manage_users(request):
-    # Your manage_users view logic here
-    return render(request, 'manage_users.html')
-
-def view_logs(request):
-    # Your view_logs view logic here
-    return render(request, 'view_logs.html')
-
-# Define your view functions for generate_token, etc.
-# Replace the placeholders with actual view logic
-
-def generate_token(request):
-    # Your generate_token view logic here
-    return render(request, 'generate_token.html')
+def list_totpcodes(request):
+    # List the TOTP codes for the user
+    return HttpResponse('List TOTP Codes')  

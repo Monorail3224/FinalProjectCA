@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxLengthValidator, MinLengthValidator
 
 class CustomUser(AbstractUser):
     # Add custom fields to the user model
     date_of_birth = models.DateField(null=True, blank=True)
     bio = models.TextField(max_length=500, blank=True)
     email = models.EmailField(max_length=255, blank=True)
-    phone_number = models.CharField(max_length=255, blank=True)
+    phone_number = models.CharField(validators=[MinLengthValidator(7), MaxLengthValidator(15)], max_length=30, blank=False)
 
     # Add profile fields like full name, profile picture, etc.
 
