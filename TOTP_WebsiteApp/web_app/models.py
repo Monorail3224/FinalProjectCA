@@ -32,13 +32,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username  # Customize the string representation as needed
 
-class TOTPSetting(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    secret_key = models.CharField(max_length=16, unique=True)  # Store the TOTP secret key securely
-
-    def __str__(self):
-        return f"{self.user.username}'s TOTP Setting"
-
 class UserLog(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     action = models.CharField(max_length=255)  # Describe the user's action, e.g., login, logout

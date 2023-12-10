@@ -39,6 +39,7 @@ totp_options = {
 
 # Define your view functions for register, login, logout, etc.
 
+
 def account_settings(request, feature):
     try:
         result=account_options[feature]

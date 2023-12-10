@@ -12,5 +12,5 @@ urlpatterns = [
     # User Registration and Authentication
     path('<str:feature>/', views.account_settings, name='account_options'),
     path('<str:selection>/', views.totp_settings, name='totp_options'),
-
+    
 ]
