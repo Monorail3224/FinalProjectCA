@@ -60,6 +60,7 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'templates',  # Add your project-level templates directory
             # Add the path to your app-level templates directory
+            os.path.join(BASE_DIR, 'web_app', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

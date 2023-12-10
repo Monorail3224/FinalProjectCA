@@ -33,7 +33,7 @@ account_options = {
     'register' : 'register',
     'profile' : 'profile.html',
     'Account_info' : 'Account_info',
-    'logout' : 'logout',
+    'logged_out' : 'logged_out.html',
     'change_password' : 'change_password',
     'update_profile' : 'update_profile',
     'delete_profile' : 'delete_profile',
