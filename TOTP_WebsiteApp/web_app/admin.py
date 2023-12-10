@@ -1,8 +1,8 @@
 from django.contrib import admin
-from web_app.models import CustomUser, UserLog, AccessToken    
+from web_app.models import CustomUser, LoginHistory    
 # Register your models here.
 
 admin.site.register(CustomUser)
-admin.site.register(UserLog)
-admin.site.register(AccessToken)
+admin.site.register(LoginHistory)
+
 

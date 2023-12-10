@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from django.views.generic import RedirectView
 
 #Register the App Namespace
 app_name = 'web_app'
@@ -11,6 +12,5 @@ urlpatterns = [
 
     # User Registration and Authentication
     path('<str:feature>/', views.account_settings, name='account_options'),
-    path('<str:selection>/', views.totp_settings, name='totp_options'),
     
 ]

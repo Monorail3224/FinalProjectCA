@@ -1,43 +1,27 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxLengthValidator, MinLengthValidator
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
 class CustomUser(AbstractUser):
-    # Add custom fields to the user model
-    date_of_birth = models.DateField(null=True, blank=True)
-    bio = models.TextField(max_length=500, blank=True)
-    email = models.EmailField(max_length=255, blank=True)
-    phone_number = models.CharField(validators=[MinLengthValidator(7), MaxLengthValidator(15)], max_length=30, blank=False)
+    phone_number = models.CharField(max_length=15)
+    # Other fields for user details (e.g., name, email)
 
     # Add profile fields like full name, profile picture, etc.
 
-    class Meta:
-        # Add a unique constraint to avoid clashes with auth.User
-        unique_together = ('username', 'email')
+    # Add related_name to avoid clashes with auth.User's groups and user_permissions
+    groups = models.ManyToManyField(Group, related_name='custom_users')
+    user_permissions = models.ManyToManyField(Permission, related_name='custom_users')
 
-    # Specify custom related_name for groups and user_permissions
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_users',
-        blank=True,
-        verbose_name='groups'
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_users',
-        blank=True,
-        verbose_name='user permissions'
-    )
 
-    def __str__(self):
-        return self.username  # Customize the string representation as needed
-
-class UserLog(models.Model):
+# Add related_name to the ForeignKey fields to resolve the clash
+class PasswordEntry(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    action = models.CharField(max_length=255)  # Describe the user's action, e.g., login, logout
-    timestamp = models.DateTimeField(auto_now_add=True)
+    website = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+    # Other fields for additional information (e.g., date created, notes)
 
-class AccessToken(models.Model):
+class LoginHistory(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    token = models.CharField(max_length=255)  # Store the access token
     timestamp = models.DateTimeField(auto_now_add=True)
+    login_successful = models.BooleanField(default=True)
+

@@ -48,15 +48,3 @@ def account_settings(request, feature):
         raise Http404("Invalid feature")
     
     
-    # Define your view functions for register, login, logout, etc.
-
-def totp_settings(request, selection):
-    # Account Settings view logic here
-    if selection in totp_options:
-        return HttpResponse(totp_options[selection])
-    else:
-        return HttpResponse('Invalid feature')
-
-def list_totpcodes(request):
-    # List the TOTP codes for the user
-    return HttpResponse('List TOTP Codes')  
