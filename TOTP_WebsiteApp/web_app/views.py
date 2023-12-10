@@ -2,10 +2,21 @@ from django.shortcuts import render, redirect
 from django.http.response import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse
 from . import models
+from .forms import loginform
 
-# Default Homepage View
+# Home view for login/registration
+
 def web_app_home(request):
-    return render(request, 'index.html')
+    if request.method == 'POST':
+        form = loginform(request.POST)
+        if form.is_valid():
+            # Handle form submission (e.g., authentication)
+            # Redirect to the appropriate view
+            pass  # Replace with your logic
+    else:
+        form = loginform()
+    
+    return render(request, 'index.html', {'form': form})
 
 #Dictionary Defined for use in Dynamic URL Routing
 account_options = {
