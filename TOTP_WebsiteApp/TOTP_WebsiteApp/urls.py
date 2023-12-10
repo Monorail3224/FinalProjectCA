@@ -18,11 +18,13 @@ from django.contrib import admin
 from django.http.response import HttpResponse
 from django.urls import path, include
 from web_app import views
+from django.views.generic import RedirectView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('web_app/', include('web_app.urls')),
-    path('', views.web_app_home),
+    path('', RedirectView.as_view(url='accounts/login/')),
+    path('accounts/', include('django.contrib.auth.urls')),
    
 ]

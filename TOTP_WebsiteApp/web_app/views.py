@@ -3,6 +3,15 @@ from django.http.response import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse
 from . import models
 from .forms import loginform
+from django.views.generic import CreateView, UpdateView, DeleteView
+
+# Model To create a new user
+
+class CustomUserCreate(CreateView):
+    model = models.CustomUser
+    fields = ['username', 'website', 'password']
+    template_name = 'register.html'
+    success_url = '/web_app/login'
 
 # Home view for login/registration
 
@@ -22,7 +31,7 @@ def web_app_home(request):
 account_options = {
     'setup_totp' : 'setup_totp',
     'register' : 'register',
-    'login' : 'login',
+    'profile' : 'profile.html',
     'Account_info' : 'Account_info',
     'logout' : 'logout',
     'change_password' : 'change_password',
@@ -30,21 +39,17 @@ account_options = {
     'delete_profile' : 'delete_profile',
 }
 
-totp_options = {
-    'totp_settings' : 'totp_settings',
-    'verify_totp' : 'verify_totp',
-    'reset_totp' : 'reset_totp',
-
-}
 
 # Define your view functions for register, login, logout, etc.
 
-
 def account_settings(request, feature):
     try:
-        result=account_options[feature]
-        return HttpResponse(account_options[feature])
-    except:
+        template_name = account_options.get(feature)
+        if template_name:
+            return render(request, template_name)
+        else:
+            raise Http404("Invalid feature")
+    except KeyError:
         raise Http404("Invalid feature")
     
     
