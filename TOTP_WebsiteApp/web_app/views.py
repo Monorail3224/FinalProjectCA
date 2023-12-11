@@ -80,6 +80,20 @@ class AccountInfoView(LoginRequiredMixin, View):
 class AddAccountView(LoginRequiredMixin, TemplateView):
     template_name = 'registration/add_account.html'
 
+    def get(self, request):
+        form = AddAccountForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = AddAccountForm(request.POST)
+        if form.is_valid():
+            password_entry = form.save(commit=False)
+            password_entry.user = request.user
+            password_entry.save()
+            # Redirect to a relevant page after adding an account
+            return redirect(reverse('account_info'))  # Use the name of the URL pattern
+        return render(request, self.template_name, {'form': form})
+
 
     
     

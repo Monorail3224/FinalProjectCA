@@ -1,65 +1,47 @@
-# TOTP Website App
+# Simple Web-based Password Manager
 
-The TOTP Website App is a Django-based web application that allows users to securely store and manage Time-Based One-Time Passwords (TOTP) for various websites. TOTP is commonly used for two-factor authentication (2FA) to enhance the security of online accounts.
+## Overview
 
-## Features
+This is a simple web-based password manager application designed to help users store and manage their login credentials for various websites. The application provides the following core features:
 
-- User Registration: Create an account to get started.
-- User Authentication: Log in securely using your registered credentials.
-- TOTP Management: Add, view, and manage TOTP tokens for different websites.
-- Account Settings: Customize your profile and security preferences.
-- Password Management: Change or reset your password as needed.
+- User Registration: Users can create an account by providing their email address and choosing a strong password.
 
-## Installation
+- Authentication: Registered users can log in securely to access their stored passwords.
 
-Follow these steps to install and run the TOTP Website App on your local machine:
+- Password Item Management: Users can create, view, edit, and delete password items for websites they frequently visit. Each password item includes fields for the website URL, username, password, and additional notes.
 
-1. **Clone the Repository:**
+- Recieve SMS Notifications upon user account creation and sign-in
+
+## Getting Started
+
+### Prerequisites
+
+Before you can use this application, you need to have the following installed:
+
+- Python
+
+### Installation
+
+Follow these steps to set up and run the password manager application:
+
+1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/TOTP_WebsiteApp.git
-   cd TOTP_WebsiteApp
+   git clone https://github.com/your-username/password-manager.git
 
 
-python -m venv venv
-source venv/bin/activate
+2. Navigate to the project directory 
 
-pip install -r requirements.txt
+    ```bash
+    cd password-manager
 
-python manage.py migrate
+3. Install the project dependencies
 
+    ```bash
+    pip install -r requirements.txt
 
-python manage.py createsuperuser
+4. Create the project files initial migrations
+    ```bash
+    python manage.py makemigrations
+    python manage.py migrate
 
-
-python manage.py runserver
-
-
-Usage
-
-    Register an Account:
-        Open your web browser and navigate to http://127.0.0.1:8000/.
-        Click the "Register" link to create a new account.
-
-    Log In:
-        After registration, click the "Sign In" link to log in using your credentials.
-
-    Manage TOTP Tokens:
-        Once logged in, you can add, view, and manage your TOTP tokens.
-        Use the "Add Website" feature to store TOTP tokens for different websites.
-
-    Account Settings:
-        Customize your profile settings and change your password in the "Account Settings" section.
-
-    Admin Panel:
-        Access the Django admin panel at http://127.0.0.1:8000/admin/ to manage users and tokens as an admin.
-
-Contributors
-
-    Your Name (your@email.com)
-    Collaborator 1 (collaborator1@email.com)
-    Collaborator 2 (collaborator2@email.com)
-
-License
-
-This project is licensed under the MIT License.

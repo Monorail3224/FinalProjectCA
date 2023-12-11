@@ -4,6 +4,7 @@
 {% block content %}
   <h2>View Accounts</h2>
   <ul>
+    
     {% for entry in password_entries %}
       <li>{{ entry.website_name }} - {{ entry.username }}</li>
     {% empty %}
