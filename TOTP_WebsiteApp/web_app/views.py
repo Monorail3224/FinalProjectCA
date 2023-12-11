@@ -1,17 +1,48 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http.response import Http404
-from django.urls import reverse, reverse_lazy
-from . import models
-from .forms import CustomUserCreationForm
+from django.http import Http404
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView, LogoutView 
 from django.views.generic import CreateView
+from .forms import CustomUserCreationForm, LoginForm
+from .models import CustomUser
 from .utils import send_sms
-from .models import CustomUser 
+from . import models
+from django.contrib.auth.views import LoginView, LogoutView
+from .forms import LoginForm
+
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'  # Replace with the path to your login template
+    form_class = LoginForm  # Use the custom login form
+    success_url = reverse_lazy('profile')  # Redirect to the user's profile page upon successful login
+
+    def user_login_view(self):
+        if self.request.user.is_authenticated:
+            return redirect('profile')
+        return LoginView.as_view()(self.request)
+
+class CustomLogoutView(LogoutView):
+    template_name = 'registration/logout.html'
+
+@login_required
+def profile_view(request):
+    # Implement the logic to display user's profile and password entries
+    return render(request, 'profile.html')
+
+@login_required
+def change_password_view(request):
+    # Implement the logic for changing the user's password
+    return render(request, 'change_password.html')
+
+@login_required
+def delete_profile_view(request):
+    # Implement the logic for deleting the user's profile
+    return render(request, 'delete_profile.html')
 
 # Model To create a new user
 class SignUpView(CreateView):
-    model = models.CustomUser
+    model = CustomUser
     form_class = CustomUserCreationForm  # Use the custom form
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
@@ -27,51 +58,10 @@ class SignUpView(CreateView):
         user_with_phone_number = CustomUser.objects.get(pk=user.pk)
         user_phone_number = user_with_phone_number.phone_number
 
-        message = "Welcome to our app! Thanks for signing up."
+        message = "Welcome to my Password Manager app! Thanks for signing up. We will take great care in managing your passwords. >:)"
         send_sms(user_phone_number, message)
 
         # Log the user in after signup
         login(self.request, user)
 
         return response
-    
-
-class LoggedOutView(LogoutView):
-    template_name = 'profile.html'
-
-# Home view for login/registration
-
-def web_app_home(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            # Handle form submission (e.g., authentication)
-            # Redirect to the appropriate view
-            pass  # Replace with your logic
-    else:
-        form = CustomUserCreationForm()
-    
-    return render(request, 'index.html', {'form': form})
-
-
-# Dictionary Defined for use in Dynamic URL Routing
-account_options = {
-    'profile': 'profile.html',
-    'Account_info': 'Account_info',
-    'logged_out': 'logged_out',
-    'change_password': 'change_password',
-    'update_profile': 'update_profile',
-    'delete_profile': 'delete_profile',
-}
-
-# Define your view functions for register, login, logout, etc.
-
-def account_settings(request, feature):
-    try:
-        template_name = account_options.get(feature)
-        if template_name:
-            return render(request, template_name)
-        else:
-            raise Http404("Invalid feature")
-    except KeyError:
-        raise Http404("Invalid feature")

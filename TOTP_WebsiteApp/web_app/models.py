@@ -15,9 +15,12 @@ class CustomUser(AbstractUser):
 # Add related_name to the ForeignKey fields to resolve the clash
 class PasswordEntry(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    website = models.CharField(max_length=255)
+    website = models.URLField(max_length=255)
     username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     # Other fields for additional information (e.g., date created, notes)
 
 class LoginHistory(models.Model):
