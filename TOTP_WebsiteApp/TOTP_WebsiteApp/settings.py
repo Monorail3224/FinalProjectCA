@@ -133,5 +133,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'web_app:user_profile' 
-
+TWILIO_ACCOUNT_SID = 'ACd61e5ba8fef7cc3039a797c8ff09413a'
+TWILIO_AUTH_TOKEN = 'caba2698e2e208a4673f2aeb4e738b7a'
+TWILIO_PHONE_NUMBER = '+18886859586'
 

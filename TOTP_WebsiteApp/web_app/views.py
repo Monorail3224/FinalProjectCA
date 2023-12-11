@@ -7,9 +7,9 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .utils import send_sms
+from .models import CustomUser  # Import the CustomUser model
 
 # Model To create a new user
-
 class SignUpView(CreateView):
     model = models.CustomUser
     form_class = CustomUserCreationForm  # Use the custom form
@@ -22,9 +22,13 @@ class SignUpView(CreateView):
 
         # Send an SMS after successful signup
         user = self.object  # The newly created user
-        phone_number = form.cleaned_data['phone_number']  # Get phone_number from the form
+
+        # Fetch the phone number from the database for the user who just signed up
+        user_with_phone_number = CustomUser.objects.get(pk=user.pk)
+        user_phone_number = user_with_phone_number.phone_number
+
         message = "Welcome to our app! Thanks for signing up."
-        send_sms(phone_number, message)
+        send_sms(user_phone_number, message)
 
         # Log the user in after signup
         login(self.request, user)
@@ -45,16 +49,15 @@ def web_app_home(request):
     
     return render(request, 'index.html', {'form': form})
 
-#Dictionary Defined for use in Dynamic URL Routing
+# Dictionary Defined for use in Dynamic URL Routing
 account_options = {
-    'profile' : 'profile.html',
-    'Account_info' : 'Account_info',
-    'logged_out' : 'logged_out.html',
-    'change_password' : 'change_password',
-    'update_profile' : 'update_profile',
-    'delete_profile' : 'delete_profile',
+    'profile': 'profile.html',
+    'Account_info': 'Account_info',
+    'logged_out': 'logged_out.html',
+    'change_password': 'change_password',
+    'update_profile': 'update_profile',
+    'delete_profile': 'delete_profile',
 }
-
 
 # Define your view functions for register, login, logout, etc.
 
@@ -67,5 +70,3 @@ def account_settings(request, feature):
             raise Http404("Invalid feature")
     except KeyError:
         raise Http404("Invalid feature")
-    
-    
