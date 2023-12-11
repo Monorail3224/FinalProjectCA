@@ -25,4 +25,9 @@ class LoginForm(AuthenticationForm):
                 code="inactive",)
         meta
         
+class AddAccountForm(forms.ModelForm):
+    class Meta:
+        model = PasswordEntry
+        fields = ['website_name', 'username', 'password']
+        # You can customize the form fields as needed
 

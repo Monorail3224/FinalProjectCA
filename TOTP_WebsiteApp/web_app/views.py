@@ -1,16 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.http import Http404
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
-from .forms import CustomUserCreationForm
+from django.views import View
+from .forms import CustomUserCreationForm, AddAccountForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile
 from .utils import send_sms
+from django.http import JsonResponse
 
 # Model to create a new user
 class SignUpView(CreateView):
@@ -65,8 +66,8 @@ class CustomLoginView(LoginView):
 
 
 @method_decorator(login_required, name='dispatch')
-class AccountInfoView(LoginRequiredMixin, TemplateView):
-    template_name = 'account_info.html'
+class AccountInfoView(LoginRequiredMixin, View):
+    template_name = 'registration/account_info.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,6 +76,23 @@ class AccountInfoView(LoginRequiredMixin, TemplateView):
         context['user'] = user
         # Add any additional context data you need for the account_info.html template
         return context
+    
+class AddAccountView(LoginRequiredMixin, TemplateView):
+    template_name = 'registration/add_account.html'
+
+    def get(self, request):
+        form = AddAccountForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = AddAccountForm(request.POST)
+        if form.is_valid():
+            password_entry = form.save(commit=False)
+            password_entry.user = request.user
+            password_entry.save()
+            # Redirect to a relevant page after adding an account
+            return redirect(reverse('account_info'))  # Use the name of the URL pattern
+        return render(request, self.template_name, {'form': form})
 
 
 class CustomLogoutView(LogoutView):
