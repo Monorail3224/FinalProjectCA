@@ -19,7 +19,7 @@ This is a simple web-based password manager application designed to help users s
 Before you can use this application, you need to have the following installed:
 
 - Python
-
+- MUST have config.py file with user-defined variables in order for SMS notifications to work
 ### Installation
 
 Follow these steps to set up and run the password manager application:
@@ -43,5 +43,8 @@ Follow these steps to set up and run the password manager application:
 4. Create the project files initial migrations
     ```bash
     python manage.py makemigrations
-    python manage.py migrate
+    python manage.py migrate 
 
+5. Run the Server
+    ```bash
+    python manage.py runserver
