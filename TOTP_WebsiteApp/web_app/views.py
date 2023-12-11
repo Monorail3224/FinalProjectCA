@@ -2,30 +2,46 @@ from django.shortcuts import render, redirect
 from django.http.response import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse, reverse_lazy
 from . import models
-from .forms import loginform
-from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm
+from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.generic import CreateView, UpdateView, DeleteView
+from .utils import send_sms
 
 # Model To create a new user
 
 class SignUpView(CreateView):
     model = models.CustomUser
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm  # Use the custom form
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+
+    def form_valid(self, form):
+        # Call the parent class's form_valid method to save the user
+        response = super().form_valid(form)
+
+        # Send an SMS after successful signup
+        user = self.object  # The newly created user
+        phone_number = form.cleaned_data['phone_number']  # Get phone_number from the form
+        message = "Welcome to our app! Thanks for signing up."
+        send_sms(phone_number, message)
+
+        # Log the user in after signup
+        login(self.request, user)
+
+        return response
 
 # Home view for login/registration
 
 def web_app_home(request):
     if request.method == 'POST':
-        form = loginform(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             # Handle form submission (e.g., authentication)
             # Redirect to the appropriate view
             pass  # Replace with your logic
     else:
-        form = loginform()
+        form = CustomUserCreationForm()
     
     return render(request, 'index.html', {'form': form})
 
