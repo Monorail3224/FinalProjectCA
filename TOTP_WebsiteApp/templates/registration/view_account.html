@@ -1,0 +1,13 @@
+<!-- registration/view_account.html -->
+{% extends "base.html" %}  <!-- or your base template -->
+
+{% block content %}
+  <h2>View Accounts</h2>
+  <ul>
+    {% for entry in password_entries %}
+      <li>{{ entry.website_name }} - {{ entry.username }}</li>
+    {% empty %}
+      <li>No accounts found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -3,13 +3,13 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.contrib.auth import login
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, ListView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.views import View
 from .forms import CustomUserCreationForm, AddAccountForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import UserProfile
+from .models import UserProfile, PasswordEntry
 from .utils import send_sms
 from django.http import JsonResponse
 
@@ -80,19 +80,17 @@ class AccountInfoView(LoginRequiredMixin, View):
 class AddAccountView(LoginRequiredMixin, TemplateView):
     template_name = 'registration/add_account.html'
 
-    def get(self, request):
-        form = AddAccountForm()
-        return render(request, self.template_name, {'form': form})
 
-    def post(self, request):
-        form = AddAccountForm(request.POST)
-        if form.is_valid():
-            password_entry = form.save(commit=False)
-            password_entry.user = request.user
-            password_entry.save()
-            # Redirect to a relevant page after adding an account
-            return redirect(reverse('account_info'))  # Use the name of the URL pattern
-        return render(request, self.template_name, {'form': form})
+    
+    
+class ViewAccountView(LoginRequiredMixin, ListView):
+    model = PasswordEntry
+    template_name = 'registration/view_account.html'
+    context_object_name = 'password_entries'
+
+    def get_queryset(self):
+        # Override the queryset to return only entries for the current user
+        return PasswordEntry.objects.filter(user=self.request.user)
 
 
 class CustomLogoutView(LogoutView):
