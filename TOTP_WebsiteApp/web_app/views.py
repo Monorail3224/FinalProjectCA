@@ -4,12 +4,13 @@ from django.urls import reverse, reverse_lazy
 from . import models
 from .forms import loginform
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 # Model To create a new user
 
 class SignUpView(CreateView):
+    model = models.CustomUser
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
@@ -30,8 +31,6 @@ def web_app_home(request):
 
 #Dictionary Defined for use in Dynamic URL Routing
 account_options = {
-    'setup_totp' : 'setup_totp',
-    'signup' : 'signup.html',
     'profile' : 'profile.html',
     'Account_info' : 'Account_info',
     'logged_out' : 'logged_out.html',

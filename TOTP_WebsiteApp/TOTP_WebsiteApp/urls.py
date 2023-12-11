@@ -15,16 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.http.response import HttpResponse
 from django.urls import path, include
 from web_app import views
 from django.views.generic import RedirectView
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('web_app/', include('web_app.urls')),
     path('', RedirectView.as_view(url='accounts/login/')),
     path('accounts/', include('django.contrib.auth.urls')),
-   
+    path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('web_app/', include('web_app.urls')),  # Keep this line to include your app's URLs
 ]

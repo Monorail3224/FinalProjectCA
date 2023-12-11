@@ -1,6 +1,11 @@
-<h1> Register New User Here</h1>
-<form method="POST">
+<!-- templates/registration/register.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Register</h2>
+<form method="post">
     {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Signup">
-    </form>
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+{% endblock %}
