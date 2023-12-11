@@ -22,6 +22,8 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='accounts/login/')),
+    path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('profile/', views.LogoutView.as_view(), name='profile'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('web_app/', include('web_app.urls')),  # Keep this line to include your app's URLs
 ]

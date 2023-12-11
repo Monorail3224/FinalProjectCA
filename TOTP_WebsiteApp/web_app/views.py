@@ -1,20 +1,20 @@
 from django.shortcuts import render, redirect
-from django.http.response import HttpResponse, HttpResponseNotFound, Http404
+from django.http.response import Http404
 from django.urls import reverse, reverse_lazy
 from . import models
 from .forms import CustomUserCreationForm
-from django.contrib.auth import login, logout  # Import the logout function
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView, LogoutView 
+from django.views.generic import CreateView
 from .utils import send_sms
-from .models import CustomUser  # Import the CustomUser model
+from .models import CustomUser 
 
 # Model To create a new user
 class SignUpView(CreateView):
     model = models.CustomUser
     form_class = CustomUserCreationForm  # Use the custom form
     success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+    template_name = 'registration/signup.html'
 
     def form_valid(self, form):
         # Call the parent class's form_valid method to save the user
@@ -34,6 +34,10 @@ class SignUpView(CreateView):
         login(self.request, user)
 
         return response
+    
+
+class LoggedOutView(LogoutView):
+    template_name = 'profile.html'
 
 # Home view for login/registration
 
@@ -49,11 +53,6 @@ def web_app_home(request):
     
     return render(request, 'index.html', {'form': form})
 
-# Custom "logged out" view
-def logged_out(request):
-    # Log the user out
-    logout(request)
-    return render(request, 'logged_out.html')
 
 # Dictionary Defined for use in Dynamic URL Routing
 account_options = {
