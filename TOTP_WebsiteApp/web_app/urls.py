@@ -10,5 +10,7 @@ urlpatterns = [
 
     # User Registration and Authentication
     path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('logged_out/', views.logged_out, name='logged_out'),
+
     path('<str:feature>/', views.account_settings, name='account_options'),    
 ]

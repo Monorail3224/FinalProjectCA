@@ -3,7 +3,7 @@ from django.http.response import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse, reverse_lazy
 from . import models
 from .forms import CustomUserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout  # Import the logout function
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .utils import send_sms
@@ -49,11 +49,17 @@ def web_app_home(request):
     
     return render(request, 'index.html', {'form': form})
 
+# Custom "logged out" view
+def logged_out(request):
+    # Log the user out
+    logout(request)
+    return render(request, 'logged_out.html')
+
 # Dictionary Defined for use in Dynamic URL Routing
 account_options = {
     'profile': 'profile.html',
     'Account_info': 'Account_info',
-    'logged_out': 'logged_out.html',
+    'logged_out': 'logged_out',
     'change_password': 'change_password',
     'update_profile': 'update_profile',
     'delete_profile': 'delete_profile',

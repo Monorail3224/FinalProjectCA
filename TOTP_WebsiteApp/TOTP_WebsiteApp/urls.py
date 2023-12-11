@@ -23,6 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='accounts/login/')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('signup/', views.SignUpView.as_view(), name='signup'),
     path('web_app/', include('web_app.urls')),  # Keep this line to include your app's URLs
 ]
