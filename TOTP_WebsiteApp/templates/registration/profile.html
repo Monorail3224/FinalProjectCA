@@ -13,17 +13,21 @@
                 <div class="card-body">
                     <p>Welcome, {{ user.username }}!</p>
                     <p>Email: {{ user.email }}</p>
-                    <p>Phone Number: {{ web_app_userprofile. }}</p>
+                    {% if user.userprofile.phone_number %}
+                    <p>Phone Number: {{ user.userprofile.phone_number }}</p>
+                    {% else %}
+                    <p>Phone Number: Not provided</p>
+                    {% endif %}
                     <!-- Add more user profile information here as needed -->
-                    {% if user.is_authenticated%}
+                    {% if user.is_authenticated %}
                     <div class="text-center">
                         <a href="{% url 'password_change' %}">
                             <button type="button" class="btn btn-primary">Edit Profile</button>
-                            {% else %}
-                            <a class="nav-link" href="#"></a>
-                            {% endif %}
                         </a>
                     </div>
+                    {% else %}
+                    <a class="nav-link" href="#"></a>
+                    {% endif %}
                 </div>
             </div>
         </div>
