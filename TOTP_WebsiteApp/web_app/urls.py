@@ -10,7 +10,6 @@ urlpatterns = [
 
     # User Registration and Authentication
     path('signup/', views.SignUpView.as_view(), name='signup'),
-    path('profile/', views.LogoutView.as_view(), name='profile'),
-    path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),  
+    path('account_info/', views.AccountInfoView.as_view(), name='account_info'),
 ]

@@ -20,10 +20,15 @@ from web_app import views
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('web_app/', include('web_app.urls')),  # Keep this line to include your app's URLs
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='accounts/login/')),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('profile/',views.CustomLoginView.as_view(), name='profile'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
-    path('profile/', views.LogoutView.as_view(), name='profile'),
+    path('account_info/', views.AccountInfoView.as_view(), name='account_info'),
+    path('add_accounts/', views.AccountInfoView.as_view(), name='add_accounts'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('web_app/', include('web_app.urls')),  # Keep this line to include your app's URLs
+    
+    
 ]

@@ -1,48 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.http import Http404
-from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
-from django.views.generic import CreateView
-from .forms import CustomUserCreationForm, LoginForm
-from .models import CustomUser
-from .utils import send_sms
-from . import models
+from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import LoginForm
+from django.contrib.auth.models import User
+from .forms import CustomUserCreationForm, LoginForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import PasswordEntry
+from .utils import send_sms
 
-class CustomLoginView(LoginView):
-    template_name = 'registration/login.html'  # Replace with the path to your login template
-    form_class = LoginForm  # Use the custom login form
-    success_url = reverse_lazy('profile')  # Redirect to the user's profile page upon successful login
-
-    def user_login_view(self):
-        if self.request.user.is_authenticated:
-            return redirect('profile')
-        return LoginView.as_view()(self.request)
-
-class CustomLogoutView(LogoutView):
-    template_name = 'registration/logout.html'
-
-@login_required
-def profile_view(request):
-    # Implement the logic to display user's profile and password entries
-    return render(request, 'profile.html')
-
-@login_required
-def change_password_view(request):
-    # Implement the logic for changing the user's password
-    return render(request, 'change_password.html')
-
-@login_required
-def delete_profile_view(request):
-    # Implement the logic for deleting the user's profile
-    return render(request, 'delete_profile.html')
-
-# Model To create a new user
+# Model to create a new user
 class SignUpView(CreateView):
-    model = CustomUser
+    model = User  # Use the built-in User model
     form_class = CustomUserCreationForm  # Use the custom form
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
@@ -54,9 +26,8 @@ class SignUpView(CreateView):
         # Send an SMS after successful signup
         user = self.object  # The newly created user
 
-        # Fetch the phone number from the database for the user who just signed up
-        user_with_phone_number = CustomUser.objects.get(pk=user.pk)
-        user_phone_number = user_with_phone_number.phone_number
+        # Fetch the phone number from the form for the user who just signed up
+        user_phone_number = form.cleaned_data.get('phone_number')
 
         message = "Welcome to my Password Manager app! Thanks for signing up. We will take great care in managing your passwords. >:)"
         send_sms(user_phone_number, message)
@@ -65,3 +36,23 @@ class SignUpView(CreateView):
         login(self.request, user)
 
         return response
+
+class CustomLoginView(LoginView):
+    template_name = 'registration/profile.html'  # Replace with the path to your login template
+    success_url = reverse_lazy('profile')  # Replace with the URL to redirect to after login
+
+@method_decorator(login_required, name='dispatch')
+class AccountInfoView(LoginRequiredMixin, TemplateView):
+    template_name = 'account_info.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Retrieve the user's information
+        user = self.request.user
+        context['user'] = user
+        # Add any additional context data you need for the account_info.html template
+        return context
+
+
+class CustomLogoutView(LogoutView):
+    template_name = 'registration/logged_out.html'

@@ -1,7 +1,11 @@
 # forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
-from .models import CustomUser, PasswordEntry
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, AdminPasswordChangeForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from .models import PasswordEntry
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
+
 
 # Your CustomUserCreationForm remains unchanged
 class CustomUserCreationForm(UserCreationForm):
@@ -9,40 +13,16 @@ class CustomUserCreationForm(UserCreationForm):
     phone_number = forms.CharField(max_length=15)
 
     class Meta(UserCreationForm.Meta):
-        model = CustomUser
+        model = User
         fields = UserCreationForm.Meta.fields + ('email', 'phone_number')
 
 
 class LoginForm(AuthenticationForm):
-    username = UsernameField(label=("Your Username"),
-                             widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Username"}))
-    password = forms.CharField(
-        label=("Your Password"),
-        strip=False,
-        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Password"}),
-    )
+     def confirm_login_allowed(self, user):
+        if not user.is_active:
+            raise ValidationError(
+                _("This account is inactive."),
+                code="inactive",)
+        meta
+        
 
-# Modify the UpdatePasswordForm to work with the PasswordEntry model
-class UpdatePasswordForm(forms.ModelForm):
-    class Meta:
-        model = PasswordEntry  # Change the model to PasswordEntry
-        fields = ['website', 'username', 'password', 'description']
-
-        widgets = {
-            'website': forms.URLInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Website URL',
-            }),
-            'username': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Username',
-            }),
-            'password': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Password',
-            }),
-            'description': forms.Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Description',
-            }),
-        }

@@ -131,9 +131,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+AUTH_PROFILE_MODULE = 'web_app.UserProfile'  # Replace 'myapp' with the name of your app
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = 'web_app:user_profile' 
-TWILIO_ACCOUNT_SID = 'ACd61e5ba8fef7cc3039a797c8ff09413a'
-TWILIO_AUTH_TOKEN = 'caba2698e2e208a4673f2aeb4e738b7a'
-TWILIO_PHONE_NUMBER = '+18886859586'
+LOGIN_REDIRECT_URL = 'profile' 
+TWILIO_ACCOUNT_SID = TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN = TWILIO_AUTH_TOKEN
+TWILIO_PHONE_NUMBER = TWILIO_PHONE_NUMBER
 
