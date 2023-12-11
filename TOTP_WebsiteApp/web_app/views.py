@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect
 from django.http.response import HttpResponse, HttpResponseNotFound, Http404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from . import models
 from .forms import loginform
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 # Model To create a new user
 
-class CustomUserCreate(CreateView):
-    model = models.CustomUser
-    fields = ['username', 'website', 'password']
-    template_name = 'register.html'
-    success_url = '/web_app/login'
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'
 
 # Home view for login/registration
 
@@ -30,7 +31,7 @@ def web_app_home(request):
 #Dictionary Defined for use in Dynamic URL Routing
 account_options = {
     'setup_totp' : 'setup_totp',
-    'register' : 'register',
+    'signup' : 'signup.html',
     'profile' : 'profile.html',
     'Account_info' : 'Account_info',
     'logged_out' : 'logged_out.html',

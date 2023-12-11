@@ -12,5 +12,6 @@ urlpatterns = [
 
     # User Registration and Authentication
     path('<str:feature>/', views.account_settings, name='account_options'),
+    path('signup/', views.SignUpView.as_view(), name='signup'),
     
 ]
