@@ -136,6 +136,8 @@ AUTH_PROFILE_MODULE = 'web_app.UserProfile'  # Replace 'myapp' with the name of 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'profile' 
+
+# Twilio API parameters/credentials for sending SMS referencing the config.py file
 TWILIO_ACCOUNT_SID = TWILIO_ACCOUNT_SID
 TWILIO_AUTH_TOKEN = TWILIO_AUTH_TOKEN
 TWILIO_PHONE_NUMBER = TWILIO_PHONE_NUMBER

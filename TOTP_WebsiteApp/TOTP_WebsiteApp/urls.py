@@ -19,6 +19,7 @@ from django.urls import path, include
 from web_app import views
 from django.views.generic import RedirectView
 
+# Project level URL configuration. This file is used to route URLs to the appropriate views.
 urlpatterns = [
     path('web_app/', include('web_app.urls')), 
     path('admin/', admin.site.urls),

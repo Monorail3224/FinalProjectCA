@@ -1,3 +1,5 @@
+# Twilio API parameters/credentials for sending SMS
+
 TWILIO_ACCOUNT_SID = 'ACd61e5ba8fef7cc3039a797c8ff09413a'
 TWILIO_AUTH_TOKEN = '12effb9d095ebdfdb68f1d660de5e840'
 TWILIO_PHONE_NUMBER = '+18886859586'

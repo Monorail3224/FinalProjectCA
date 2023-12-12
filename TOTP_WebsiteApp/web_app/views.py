@@ -1,19 +1,19 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.utils.decorators import method_decorator
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth import login
-from django.views.generic import CreateView, TemplateView, ListView, DeleteView, DetailView
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.models import User
-from django.views import View
-from .forms import CustomUserCreationForm, AddAccountForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import UserProfile, PasswordEntry
-from .utils import send_sms
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required # Import the login_required decorator from Django
+from django.shortcuts import render, redirect # Import the render and redirect functions from Django
+from django.utils.decorators import method_decorator # Import the method_decorator function from Django
+from django.urls import reverse_lazy, reverse # Import the reverse_lazy and reverse functions from Django
+from django.contrib.auth import login # Import the login function from Django
+from django.views.generic import CreateView, TemplateView, ListView, DeleteView, DetailView # Import the CreateView, TemplateView, ListView, DeleteView, and DetailView classes from Django. DeleteView is currently not in use but may be useful in the future.
+from django.contrib.auth.views import LoginView, LogoutView # Import the LoginView and LogoutView from Django
+from django.contrib.auth.models import User # Import the User model from Django
+from django.views import View # Import the View class from Django
+from .forms import CustomUserCreationForm, AddAccountForm # Import custom forms for user creation and adding accounts
+from django.contrib.auth.mixins import LoginRequiredMixin # Import the LoginRequiredMixin
+from .models import UserProfile, PasswordEntry # Import the UserProfile and PasswordEntry models
+from .utils import send_sms # Import the send_sms function from the utils file
+from django.http import JsonResponse # Keeping here as something that may be useful in the future for AJAX
 
-# Model to create a new user
+# This view is used to sign up new users. It uses the updated form with the 'phone_number' field and creates a UserProfile for the user after successful signup. It also sends an SMS to the user's phone number after successful signup and logs the user in.
 class SignUpView(CreateView):
     model = User
     form_class = CustomUserCreationForm  # Use the updated form with the 'phone_number' field
@@ -40,8 +40,7 @@ class SignUpView(CreateView):
 
         return response
 
-# Thie Custom View retrieves the phone number from the user's profile and sends an SMS after successful login
-
+# This custom login view sends an SMS to the user's phone number after successful login.
 class CustomLoginView(LoginView):
     template_name = 'registration/profile.html'
     success_url = reverse_lazy('registration/profile.html')
@@ -66,7 +65,7 @@ class CustomLoginView(LoginView):
         return context
 
 
-
+# This view is used to display the user's account information, including their phone number and password entries.
 @method_decorator(login_required, name='dispatch')
 class AccountInfoView(LoginRequiredMixin, View):
     template_name = 'registration/account_info.html'
@@ -82,8 +81,9 @@ class AccountInfoView(LoginRequiredMixin, View):
         password_entries = PasswordEntry.objects.filter(user=user)
         context['password_entries'] = password_entries
         
-        # Add any additional context data you need for the account_info.html template
         return context
+    
+    # This method is used to handle GET requests to the view. It retrieves the user's information and password entries and renders the account_info.html template with the context data.
 class AddAccountView(LoginRequiredMixin, TemplateView):
     template_name = 'registration/add_account.html'
 
@@ -101,12 +101,13 @@ class AddAccountView(LoginRequiredMixin, TemplateView):
             return redirect(reverse('view_account'))  # Use the name of the URL pattern
         return render(request, self.template_name, {'form': form})
 
-
+# View used for rendering password entry details
 class PasswordEntryDetailView(DetailView):
-    model = PasswordEntry  # Specify the model
+    model = PasswordEntry  
     template_name = 'registration/passwordentry_detail.html'  # Create a new template for displaying details
     context_object_name = 'password_entry'  # Define the context variable name
     
+    #View used for listing password entries
 class ViewAccountView(LoginRequiredMixin, ListView):
     model = PasswordEntry
     template_name = 'registration/view_account.html'
@@ -116,6 +117,7 @@ class ViewAccountView(LoginRequiredMixin, ListView):
         # Override the queryset to return only entries for the current user
         return PasswordEntry.objects.filter(user=self.request.user)
 
+# Simple view for signing out of the user's account
 
 class CustomLogoutView(LogoutView):
     template_name = 'registration/logged_out.html'

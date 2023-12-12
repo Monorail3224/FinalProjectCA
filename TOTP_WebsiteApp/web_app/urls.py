@@ -6,7 +6,7 @@ app_name = 'web_app'
 urlpatterns = [
 
     
-    # Add URL paths here
+    # App level URL configuration. This file is used to route URLs to the appropriate views within 'web_app'.
 
     # User Registration and Authentication
     path('signup/', views.SignUpView.as_view(), name='signup'),
