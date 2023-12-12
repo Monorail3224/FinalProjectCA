@@ -36,7 +36,7 @@ Follow these steps to set up and run the password manager application:
 2. Navigate to the project directory 
 
     ```bash
-    cd password-manager
+    cd FinalProjectCA
 
 3. Install the project dependencies
 
