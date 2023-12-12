@@ -1,4 +1,4 @@
-// add_entry.js
+// Keeping here for use in AJAX functions in the future
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("add-entry-form");
     form.addEventListener("submit", function (e) {

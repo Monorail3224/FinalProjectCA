@@ -1,6 +1,6 @@
 # Simple Web-based Password Manager
 
-# **IMPORTANT NOTICE**: This app is a Proof of Concept and lacks security measures. Data stored in the database is * NOT encrypted.
+# **IMPORTANT NOTICE**: This app is a Proof of Concept and lacks security measures. Data stored in the database is NOT encrypted.
 
 ## Overview
 
