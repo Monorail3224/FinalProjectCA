@@ -40,29 +40,31 @@ class SignUpView(CreateView):
 
         return response
 
+# Thie Custom View retrieves the phone number from the user's profile and sends an SMS after successful login
+
 class CustomLoginView(LoginView):
     template_name = 'registration/profile.html'
     success_url = reverse_lazy('registration/profile.html')
 
     def form_valid(self, form):
         response = super().form_valid(form)
-
-        # Fetch the logged-in user
-        user = self.request.user
-
-        # Try to get the associated phone number based on user_id
-        try:
-            user_profile = UserProfile.objects.get(user_id=user.id)
-            user_phone_number = user_profile.phone_number
-        except UserProfile.DoesNotExist:
-            user_phone_number = None
-
-        # Check if a phone number exists for the user and send an SMS alert
-        if user_phone_number:
-            message = "Someone has signed into your account. If this was not you, please contact support immediately."
-            send_sms(user_phone_number, message)
-
         return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Retrieve the phone number from the user's profile
+        phone_number = None
+        if self.request.user.is_authenticated:
+            try:
+                user_profile = UserProfile.objects.get(user=self.request.user)
+                phone_number = user_profile.phone_number
+                message = "You have logged in to your account. If this wasn't you, please contact us immediately."
+                send_sms(phone_number, message)
+            except UserProfile.DoesNotExist:
+                pass
+        context['phone_number'] = phone_number
+        return context
+
 
 
 @method_decorator(login_required, name='dispatch')

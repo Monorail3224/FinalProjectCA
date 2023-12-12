@@ -23,7 +23,7 @@ class LoginForm(AuthenticationForm):
             raise ValidationError(
                 _("This account is inactive."),
                 code="inactive",)
-        meta
+        
         
 class AddAccountForm(forms.ModelForm):
     class Meta:
