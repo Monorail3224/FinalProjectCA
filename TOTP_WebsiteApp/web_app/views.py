@@ -17,7 +17,7 @@ from django.http import JsonResponse
 class SignUpView(CreateView):
     model = User
     form_class = CustomUserCreationForm  # Use the updated form with the 'phone_number' field
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('profile')
     template_name = 'registration/signup.html'
 
     def form_valid(self, form):
