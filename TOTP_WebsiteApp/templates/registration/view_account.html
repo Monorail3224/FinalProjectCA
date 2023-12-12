@@ -17,6 +17,14 @@
       border: 1px solid #ccc;
       padding: 10px;
       background-color: #f5f5f5;
+      cursor: pointer; /* Make the cursor change to a pointer on hover */
+      transition: background-color 0.3s; /* Smooth color transition on hover */
+    }
+
+    /* Hover effect: change background color to blue */
+    .account-list li:hover {
+      background-color: #007bff;
+      color: #fff; /* Change text color to white on hover */
     }
 
     /* Links within list items */
@@ -44,7 +52,7 @@
 
   <ul class="account-list">
     {% for entry in password_entries %}
-      <li>
+      <li onclick="window.location='{% url 'passwordentry_detail' entry.pk %}';">
         <a href="{% url 'passwordentry_detail' entry.pk %}">
           {{ entry.website_name }} - {{ entry.username }}
         </a>
