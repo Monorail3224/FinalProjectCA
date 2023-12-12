@@ -42,7 +42,7 @@ Follow these steps to set up and run the password manager application:
 
 4. Create the project files initial migrations
     ```bash
-    python manage.py makemigrations
+    python manage.py makemigrations web_app
     python manage.py migrate 
 
 5. Run the Server
