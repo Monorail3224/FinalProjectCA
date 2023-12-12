@@ -1,5 +1,7 @@
 # Simple Web-based Password Manager
 
+# **IMPORTANT NOTICE**: This app is a Proof of Concept and lacks security measures. Data stored in the database is not encrypted.
+
 ## Overview
 
 This is a simple web-based password manager application designed to help users store and manage their login credentials for various websites. The application provides the following core features:
@@ -11,6 +13,7 @@ This is a simple web-based password manager application designed to help users s
 - Password Item Management: Users can create, view, edit, and delete password items for websites they frequently visit. Each password item includes fields for the website URL, username, password, and additional notes.
 
 - Recieve SMS Notifications upon user account creation and sign-in
+
 
 ## Getting Started
 
