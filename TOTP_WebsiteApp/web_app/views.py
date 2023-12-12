@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login
-from django.views.generic import CreateView, TemplateView, ListView
+from django.views.generic import CreateView, TemplateView, ListView, DeleteView, DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.views import View
@@ -42,7 +42,7 @@ class SignUpView(CreateView):
 
 class CustomLoginView(LoginView):
     template_name = 'registration/profile.html'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('registration/profile.html')
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -71,12 +71,17 @@ class AccountInfoView(LoginRequiredMixin, View):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         # Retrieve the user's information
         user = self.request.user
         context['user'] = user
+        
+        # Retrieve password entries for the user
+        password_entries = PasswordEntry.objects.filter(user=user)
+        context['password_entries'] = password_entries
+        
         # Add any additional context data you need for the account_info.html template
         return context
-    
 class AddAccountView(LoginRequiredMixin, TemplateView):
     template_name = 'registration/add_account.html'
 
@@ -91,11 +96,14 @@ class AddAccountView(LoginRequiredMixin, TemplateView):
             password_entry.user = request.user
             password_entry.save()
             # Redirect to a relevant page after adding an account
-            return redirect(reverse('account_info'))  # Use the name of the URL pattern
+            return redirect(reverse('view_account'))  # Use the name of the URL pattern
         return render(request, self.template_name, {'form': form})
 
 
-    
+class PasswordEntryDetailView(DetailView):
+    model = PasswordEntry  # Specify the model
+    template_name = 'registration/passwordentry_detail.html'  # Create a new template for displaying details
+    context_object_name = 'password_entry'  # Define the context variable name
     
 class ViewAccountView(LoginRequiredMixin, ListView):
     model = PasswordEntry

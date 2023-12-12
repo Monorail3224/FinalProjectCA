@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from .models import PasswordEntry
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -29,5 +29,7 @@ class AddAccountForm(forms.ModelForm):
     class Meta:
         model = PasswordEntry
         fields = ['website_name', 'username', 'password']
-        # You can customize the form fields as needed
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
 

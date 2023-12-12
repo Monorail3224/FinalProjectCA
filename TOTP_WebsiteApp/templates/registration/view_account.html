@@ -1,14 +1,59 @@
 <!-- registration/view_account.html -->
-{% extends "base.html" %}  <!-- or your base template -->
+{% extends "base.html" %}
 
 {% block content %}
   <h2>View Accounts</h2>
-  <ul>
-    
+
+  <style>
+    /* Container for the list of entries */
+    .account-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    /* Style for each list item */
+    .account-list li {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f5f5f5;
+    }
+
+    /* Links within list items */
+    .account-list a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    /* Add account link */
+    .add-account-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    /* Style for empty list message */
+    .empty-list-message {
+      color: #999;
+    }
+  </style>
+
+  <ul class="account-list">
     {% for entry in password_entries %}
-      <li>{{ entry.website_name }} - {{ entry.username }}</li>
+      <li>
+        <a href="{% url 'passwordentry_detail' entry.pk %}">
+          {{ entry.website_name }} - {{ entry.username }}
+        </a>
+      </li>
     {% empty %}
-      <li>No accounts found.</li>
+      <li class="empty-list-message">No accounts found.</li>
     {% endfor %}
   </ul>
+
+  <!-- Add a link to add a new password entry -->
+  <a href="{% url 'add_account' %}" class="add-account-link">Add New Account</a>
 {% endblock %}

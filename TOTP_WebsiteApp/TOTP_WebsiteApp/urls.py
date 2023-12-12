@@ -29,6 +29,7 @@ urlpatterns = [
     path('account_info/', views.AccountInfoView.as_view(), name='account_info'),
     path('add_account/', views.AddAccountView.as_view(), name='add_account'),
     path('view_account/', views.ViewAccountView.as_view(), name='view_account'),
+    path('view_account/<int:pk>/', views.PasswordEntryDetailView.as_view(), name='passwordentry_detail'),
     path('accounts/', include('django.contrib.auth.urls')),
     
     

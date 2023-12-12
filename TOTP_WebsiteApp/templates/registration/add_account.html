@@ -3,7 +3,7 @@
 
 {% block content %}
   <h2>Add Password Entry</h2>
-  <form id="add-entry-form">
+  <form id="add-entry-form" method="post">
     {% csrf_token %}
     <div class="form-group">
       <label for="website_name">Website Name:</label>
